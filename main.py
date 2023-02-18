@@ -10,7 +10,7 @@ SCALE_BY: Final = 2
 
 
 def main():
-    img: NDArray3D = cv.imread('pictures/img.jpg')
+    img: NDArray3D = cv.imread('pictures/img2.jpg')
 
     convolved_img = convolve_img(img, kernel=kernels.RELIEF_KERNEL)
     scaled_img = scale_img(convolved_img, scale_by=SCALE_BY)
@@ -21,14 +21,14 @@ def main():
 
 def convolve_img(img: NDArray3D,
                  kernel: NDArray2D) -> NDArray3D:
-    blue_channel, green_channel, red_channel = get_channels(img)
+    blue, green, red = get_channels(img)
 
-    blue_channel_convolved = convolve_channel(blue_channel, kernel)
-    green_channel_convolved = convolve_channel(green_channel, kernel)
-    red_channel_convolved = convolve_channel(red_channel, kernel)
+    blue_convolved = convolve_channel(blue, kernel)
+    green_convolved = convolve_channel(green, kernel)
+    red_convolved = convolve_channel(red, kernel)
 
     convolved_img = merge_channels(
-        blue_channel_convolved, green_channel_convolved, red_channel_convolved
+        blue_convolved, green_convolved, red_convolved
     )
 
     return convolved_img
@@ -67,8 +67,8 @@ def multiply_matrices(a: NDArray2D, b: NDArray2D) -> NDArray2D:
 
 
 def process_matrix(matrix: NDArray2D):
-    shift_values_up(matrix)
-    # abs_values(matrix)
+    # shift_values_up(matrix)
+    abs_values(matrix)
     normalize(matrix)
 
 
