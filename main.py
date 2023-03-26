@@ -10,13 +10,14 @@ SCALE_BY: Final = 2
 
 
 def main():
-    img: NDArray3D = cv.imread('pictures/img2.jpg')
+    img: NDArray3D = cv.imread('pictures/castle.jpg')
 
     convolved_img = convolve_img(img, kernel=kernels.RELIEF_KERNEL)
+    cv.imwrite('pictures/convolved.jpg', convolved_img)
+
     scaled_img = scale_img(convolved_img, scale_by=SCALE_BY)
 
     cv.imwrite('pictures/scaled.jpg', scaled_img)
-    cv.imwrite('pictures/convolved.jpg', convolved_img)
 
 
 def convolve_img(img: NDArray3D,
@@ -67,9 +68,7 @@ def multiply_matrices(a: NDArray2D, b: NDArray2D) -> NDArray2D:
 
 
 def process_matrix(matrix: NDArray2D):
-    # shift_values_up(matrix)
-    abs_values(matrix)
-    normalize(matrix)
+    negatives_to_zeros(matrix)
 
 
 def shift_values_up(matrix: NDArray2D):
@@ -78,6 +77,13 @@ def shift_values_up(matrix: NDArray2D):
     for row in matrix:
         for i, val in enumerate(row):
             row[i] = val - min_value
+
+
+def negatives_to_zeros(matrix: NDArray2D):
+    for row in matrix:
+        for j, val in enumerate(row):
+            if val < 0:
+                row[j] = 0
 
 
 def abs_values(matrix: NDArray2D):
